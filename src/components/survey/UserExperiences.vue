@@ -4,8 +4,9 @@
 		<BaseButton @click="loadExperiences">Load Submitted Experiences</BaseButton>
 		<p v-if="isLoading">Loading...</p>
 		<p v-else-if="!isLoading && error">{{ error }}</p>
-		<p v-else-if="!isLoading && (!results || results.length === 0)">No stored experiences found. Start adding some
-			survey results first.</p>
+		<p v-else-if="!isLoading && (!results || results.length === 0)">
+			No stored experiences found. Start adding some survey results first.
+		</p>
 		<ul v-else>
 			<SurveyResult
 				v-for="result in results"
@@ -42,24 +43,22 @@ export default {
 			this.error = null;
 
 			fetch('https://vue-http-demo-85e9e.firebaseio.com/surveys.json')
-				.then(response => {
+				.then((response) => {
 					if (response.ok) {
 						return response.json();
 					}
 				})
-				.then(data => {
+				.then((data) => {
 					this.isLoading = false;
 
 					const results = [];
 
 					for (const id in data) {
-						if (data.hasOwnProperty(id)) {
-							results.push({
-								id,
-								name: data[id].name,
-								rating: data[id].rating
-							});
-						}
+						results.push({
+							id,
+							name: data[id].name,
+							rating: data[id].rating
+						});
 					}
 
 					this.results = results;
